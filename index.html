@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Wanger</title>
+  <style>
+    /* Farbpalette inspiriert von ChatGPT Dark Mode */
+    :root {
+      --bg: #202123;
+      --header-bg: #343541;
+      --container-bg: #343541;
+      --msg-bg-ai: #444654;
+      --msg-bg-user: #10A37F;
+      --input-bg: #40414F;
+      --text-color: #E5E5E5;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      height: 90vh;
+      background-color: var(--container-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .header {
+      padding: 16px;
+      background-color: var(--header-bg);
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-align: center;
+      border-bottom: 1px solid #3A3B41;
+    }
+    .header a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    .header a:hover {
+      text-decoration: underline;
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .message {
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .message.ai .bubble {
+      background-color: var(--msg-bg-ai);
+      color: var(--text-color);
+      border-radius: 10px 10px 10px 0;
+    }
+    .message.user {
+      justify-content: flex-end;
+    }
+    .message.user .bubble {
+      background-color: var(--msg-bg-user);
+      color: #FFFFFF;
+      border-radius: 10px 10px 0 10px;
+    }
+    .bubble {
+      padding: 12px 16px;
+      max-width: 75%;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background-color: var(--input-bg);
+      border-top: 1px solid #3A3B41;
+    }
+    .input-area textarea {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #303138;
+      color: var(--text-color);
+      resize: none;
+      font-size: 1rem;
+      line-height: 1.4;
+      min-height: 40px;
+      max-height: 100px;
+    }
+    .input-area textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(16,163,127,0.5);
+    }
+    .input-area button {
+      margin-left: 8px;
+      padding: 0 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--msg-bg-user);
+      color: #FFFFFF;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .input-area button:hover {
+      background-color: #0E8F68;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="header"><a href="https://www.honeybalecta.de/unterstutzen" target="_blank" rel="noopener">AI-Wanger</a></div>
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <textarea id="userInput" placeholder="Geben Sie Ihre Frage hier ein..."></textarea>
+      <button id="sendBtn">Senden</button>
+    </div>
+  </div>
+  <script>
+    const messagesEl = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');const answers = [
+  'Ich kann mich nicht erinnern.',
+  'Ich erinnere mich nicht.',
+  'Das ist mir nicht erinnerlich.',
+  'Das weiß ich nicht mehr.',
+  'Das habe ich vergessen.',
+  'Das ist mir entfallen.'
+];
+
+function appendMessage(text, sender) {
+  const msgEl = document.createElement('div');
+  msgEl.classList.add('message', sender);
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
+  bubble.textContent = text;
+  msgEl.appendChild(bubble);
+  messagesEl.appendChild(msgEl);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function handleSubmit() {
+  const text = userInput.value.trim();
+  if (!text) return;
+  appendMessage(text, 'user');
+  let reply = 'Grüß Gott, mein Name ist AI-Wanger. Bitte stellen Sie eine Frage.';
+  if (text.includes('?')) {
+    reply = answers[Math.floor(Math.random() * answers.length)];
+  }
+  setTimeout(() => {
+    appendMessage(reply, 'ai');
+  }, 500);
+  userInput.value = '';
+  userInput.style.height = 'auto';
+  userInput.focus();
+}
+
+sendBtn.addEventListener('click', handleSubmit);
+userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleSubmit();
+  }
+});
+
+  </script>
+</body>
+</html>
