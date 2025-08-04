@@ -23,9 +23,9 @@
       background-color: var(--bg);
       color: var(--text-color);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
     .chat-container {
       display: flex;
@@ -37,6 +37,7 @@
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      margin-top: 20px;
     }
     .header {
       padding: 16px;
@@ -122,6 +123,39 @@
     .input-area button:hover {
       background-color: #0E8F68;
     }
+    .footer {
+      text-align: center;
+      padding: 12px 0;
+      font-size: 0.875rem;
+      width: 100%;
+      max-width: 600px;
+    }
+    .footer a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 480px) {
+      .chat-container {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        margin-top: 0;
+      }
+      .header {
+        font-size: 1rem;
+        padding: 12px;
+      }
+      .input-area textarea {
+        font-size: 0.9rem;
+      }
+      .footer {
+        font-size: 0.75rem;
+        padding: 8px 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -133,6 +167,7 @@
       <button id="sendBtn">Senden</button>
     </div>
   </div>
+  <div class="footer"><a href="https://www.honeybalecta.de/impressum" target="_blank" rel="noopener">Impressum</a></div>
   <script>
     const messagesEl = document.getElementById('messages');
     const userInput = document.getElementById('userInput');
